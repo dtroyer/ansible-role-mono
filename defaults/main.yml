@@ -1,0 +1,12 @@
+---
+mono_disable_plugin: []
+mono_disablerepo: []
+mono_dist: "{{ ansible_distribution|lower }}"
+mono_enable_plugin: []
+mono_enablerepo: []
+mono_packages: []
+mono_repository: "{{ mono_dist + mono_version }}"
+mono_repository_gpgcheck: true
+mono_repository_stable: false
+mono_version: "{{ ansible_distribution_major_version }}"
+...
