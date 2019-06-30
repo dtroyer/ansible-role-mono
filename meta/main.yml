@@ -3,10 +3,12 @@ dependencies: []
 galaxy_info:
   role_name: mono
   author: jewflix
-  description: RHEL/CentOS - Cross platform, open source .NET framework
+  description: Debian/RedHat - Cross platform, open source .NET framework
   license: GPLv3
   min_ansible_version: 2.8
   platforms:
+    - name: Debian
+        - all
     - name: EL
       versions:
         - all

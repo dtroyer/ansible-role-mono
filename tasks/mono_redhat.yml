@@ -1,0 +1,46 @@
+---
+- name: Fetching the mono repository gpg key
+  tags: mono
+  become: true
+  get_url:
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin
+    owner: root
+    group: root
+    mode: 0644
+    url: 'http://download.mono-project.com/repo/xamarin.gpg'
+
+- name: Installing the mono repository gpg key
+  tags: mono
+  become: true
+  rpm_key:
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin
+    state: present
+
+- name: Overlay mono repository configuration
+  tags: mono
+  become: true
+  template:
+    src: mono-repository-stable.repo.j2
+    dest: "{{ '/etc/yum.repos.d/mono-' + mono_repository + '-stable.repo' }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Append mono-{{ mono_repository }}-stable to mono_enablerepo list
+  tags: mono
+  set_fact:
+    mono_enablerepo: "{{ mono_enablerepo }} + [ 'mono-{{ mono_repository }}-stable' ]"
+  when: mono_packages|length > 0
+
+- name: Ensure the required mono packages are installed
+  tags: mono
+  become: true
+  yum:
+    disable_plugin: "{{ mono_disable_plugin|join(',') }}"
+    disablerepo: "{{ mono_disablerepo|join(',') }}"
+    enable_plugin: "{{ mono_enable_plugin|join(',') }}"
+    enablerepo: "{{ mono_enablerepo|join(',') }}"
+    name: "{{ mono_packages }}"
+    state: present
+  when: mono_packages|length > 0
+...

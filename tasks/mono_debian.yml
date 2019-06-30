@@ -1,0 +1,38 @@
+---
+- name: Installing mono dependencies
+  tags: mono
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - apt-transport-https
+    - dirmngr
+    - gnupg
+    - ca-certificates
+
+- name: Fetching and installing the mono repository gpg key
+  tags: mono
+  become: true
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+    state: present
+
+- name: Overlaying mono repository configuration
+  tags: mono
+  become: true
+  apt_repository:
+    repo: deb https://download.mono-project.com/repo/debian stable-stretch main
+    state: present
+    update_cache: true
+
+- name: Ensure the required mono packages are installed
+  tags: mono
+  become: true
+  apt:
+    dpkg_options: "{{ mono_dpkg_options|join(',') }}"
+    name: "{{ mono_packages }}"
+    state: present
+  when: mono_packages|length > 0
+...

@@ -1,46 +1,11 @@
 ---
-- name: Overlaying mono repository configuration
+- name: Including operating system specific tasks (Debian)
   tags: mono
-  become: true
-  template:
-    src: mono-repository-stable.repo.j2
-    dest: "{{ '/etc/yum.repos.d/mono-' + mono_repository + '-stable.repo' }}"
-    owner: root
-    group: root
-    mode: 0644
+  import_tasks: mono_debian.yml
+  when: ansible_os_family == 'Debian'
 
-- name: Fetching mono repository key
+- name: Including operating system specific tasks (RedHat)
   tags: mono
-  become: true
-  get_url:
-    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin
-    owner: root
-    group: root
-    mode: 0644
-    url: 'http://download.mono-project.com/repo/xamarin.gpg'
-
-- name: Ensure the mono gpg keys are installed
-  tags: mono
-  become: true
-  rpm_key:
-    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin
-    state: present
-
-- name: Appending mono-{{ mono_repository }}-stable to mono_enablerepo list
-  tags: mono
-  set_fact:
-    mono_enablerepo: "{{ mono_enablerepo }} + [ 'mono-{{ mono_repository }}-stable' ]"
-  when: mono_packages|length > 0
-
-- name: Ensure the required mono packages are installed
-  tags: mono
-  become: true
-  yum:
-    disable_plugin: "{{ mono_disable_plugin|join(',') }}"
-    disablerepo: "{{ mono_disablerepo|join(',') }}"
-    enable_plugin: "{{ mono_enable_plugin|join(',') }}"
-    enablerepo: "{{ mono_enablerepo|join(',') }}"
-    name: "{{ mono_packages }}"
-    state: present
-  when: mono_packages|length > 0
+  import_tasks: mono_redhat.yml
+  when: ansible_os_family == 'RedHat'
 ...
