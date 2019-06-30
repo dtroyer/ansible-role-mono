@@ -24,7 +24,7 @@
   tags: mono
   become: true
   apt_repository:
-    filename: mono-official-stable
+    filename: "{{ ['mono', mono_repository, 'stable']|join('-') }}"
     repo: deb https://download.mono-project.com/repo/debian stable-stretch main
     state: present
     update_cache: true
