@@ -1,6 +1,0 @@
-[mono-{{ mono_repository }}-stable]
-name=mono-{{ mono_repository }}-stable
-baseurl=http://download.mono-project.com/repo/{{ mono_repository }}-stable/
-enabled={{ '1' if mono_repository_stable|bool else '0' }}
-gpgcheck={{ '1' if mono_repository_gpgcheck|bool else '0' }}
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin

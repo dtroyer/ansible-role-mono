@@ -22,8 +22,6 @@ Available variables are listed below, along with default values:
     mono_enablerepo: []
     mono_packages: []
     mono_repository: "{{ mono_dist + mono_version }}"
-    mono_repository_gpgcheck: true
-    mono_repository_stable: false
     mono_version: "{{ ansible_distribution_major_version }}"
 
 ## Dependencies
@@ -39,7 +37,6 @@ None
             - epel
           mono_packages:
             - mono-core
-          mono_repository_stable: true
 
 ## License
 

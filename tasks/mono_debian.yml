@@ -1,17 +1,18 @@
 ---
-- name: Installing mono dependencies
+- name: Ensure mono dependencies are present
   tags: mono
   become: true
   apt:
-    name: "{{ item }}"
+    name: "{{ mono_deps }}"
     state: present
-  loop:
-    - apt-transport-https
-    - dirmngr
-    - gnupg
-    - ca-certificates
+  vars:
+    mono_deps:
+      - apt-transport-https
+      - ca-certificates
+      - dirmngr
+      - gnupg
 
-- name: Fetching and installing the mono repository gpg key
+- name: Ensure the mono repository gpg key is present
   tags: mono
   become: true
   apt_key:
@@ -19,10 +20,11 @@
     id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
     state: present
 
-- name: Overlaying mono repository configuration
+- name: Overlay mono repository configuration
   tags: mono
   become: true
   apt_repository:
+    filename: mono-official-stable
     repo: deb https://download.mono-project.com/repo/debian stable-stretch main
     state: present
     update_cache: true
