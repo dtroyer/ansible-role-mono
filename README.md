@@ -17,7 +17,9 @@ Available variables are listed below, along with default values:
     mono_disable_plugin: []
     mono_disablerepo: []
     mono_dist: "{{ ansible_distribution|lower }}"
-    mono_dpkg_options: []
+    mono_dpkg_options: 
+     - force-confdef
+     - force-confold
     mono_enable_plugin: []
     mono_enablerepo: []
     mono_packages: []
