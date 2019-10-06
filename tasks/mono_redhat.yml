@@ -43,10 +43,10 @@
   tags: mono
   become: true
   yum:
-    disable_plugin: "{{ mono_disable_plugin|join(',') }}"
-    disablerepo: "{{ mono_disablerepo|join(',') }}"
-    enable_plugin: "{{ mono_enable_plugin|join(',') }}"
-    enablerepo: "{{ mono_enablerepo|join(',') }}"
+    disable_plugin: "{{ mono_disable_plugin|join(',') or omit }}"
+    disablerepo: "{{ mono_disablerepo|join(',') or omit }}"
+    enable_plugin: "{{ mono_enable_plugin|join(',') or omit }}"
+    enablerepo: "{{ mono_enablerepo|join(',') or omit }}"
     name: "{{ mono_packages }}"
     state: present
   when: mono_packages|length > 0
