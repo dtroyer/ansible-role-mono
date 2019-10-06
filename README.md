@@ -4,7 +4,7 @@
 [![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-mono-blue.svg?style=flat)](https://galaxy.ansible.com/jewflix/mono)
 [![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg?style=flat)](COPYING)
 
-Debian/Raspbian/RedHat - Cross platform, open source .NET framework
+Debian/RedHat - Cross platform, open source .NET framework
 
 ## Requirements
 
@@ -17,7 +17,7 @@ Available variables are listed below, along with default values:
     mono_disable_plugin: []
     mono_disablerepo: []
     mono_dist: "{{ ansible_distribution|lower }}"
-    mono_dpkg_options: 
+    mono_dpkg_options:
      - force-confdef
      - force-confold
     mono_enable_plugin: []
