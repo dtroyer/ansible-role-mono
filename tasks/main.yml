@@ -2,7 +2,16 @@
 - name: Including operating system specific tasks (Debian)
   tags: mono
   import_tasks: mono_debian.yml
-  when: ansible_os_family == 'Debian'
+  when: 
+    - ansible_os_family == 'Debian'
+    - ansible_lsb.id != "Raspbian"
+
+- name: Including operating system specific tasks (Raspbian)
+  tags: mono
+  import_tasks: mono_raspbian.yml
+  when:
+    - ansible_os_family == 'Debian'
+    - ansible_lsb.id == "Raspbian"
 
 - name: Including operating system specific tasks (RedHat)
   tags: mono
