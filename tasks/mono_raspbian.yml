@@ -1,5 +1,5 @@
 ---
-- name: Ensure mono dependencies are present (Debian)
+- name: Ensure mono dependencies are present (Raspbian)
   tags: mono
   become: true
   apt:
@@ -12,7 +12,7 @@
       - dirmngr
       - gnupg
 
-- name: Ensure the mono repository gpg key is present (Debian)
+- name: Ensure the mono repository gpg key is present (Raspbian)
   tags: mono
   become: true
   apt_key:
@@ -20,16 +20,16 @@
     id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
     state: present
 
-- name: Overlay mono repository configuration (Debian)
+- name: Overlay mono repository configuration (Raspbian)
   tags: mono
   become: true
   apt_repository:
     filename: "{{ ['mono', mono_repository, 'stable']|join('-') }}"
-    repo: deb https://download.mono-project.com/repo/debian stable-stretch main
+    repo: deb https://download.mono-project.com/repo/debian stable-raspbian{{ ansible_lsb.codename }} main
     state: present
     update_cache: true
 
-- name: Ensure the required mono packages are installed (Debian)
+- name: Ensure the required mono packages are installed (Raspbian)
   tags: mono
   become: true
   apt:

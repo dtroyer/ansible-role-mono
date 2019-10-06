@@ -1,5 +1,5 @@
 ---
-- name: Ensure mono dependencies are present
+- name: Ensure mono dependencies are present (RedHat)
   tags: mono
   become: true
   yum:
@@ -11,7 +11,7 @@
       - gnupg
       - yum
 
-- name: Fetching mono repository gpg key for local storage
+- name: Fetching mono repository gpg key for local storage (RedHat)
   tags: mono
   become: true
   get_url:
@@ -21,14 +21,14 @@
     mode: 0644
     url: http://download.mono-project.com/repo/xamarin.gpg
 
-- name: Ensure the mono repository gpg key is present
+- name: Ensure the mono repository gpg key is present (RedHat)
   tags: mono
   become: true
   rpm_key:
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin
     state: present
 
-- name: Overlay mono repository configuration
+- name: Overlay mono repository configuration (RedHat)
   tags: mono
   become: true
   yum_repository:
@@ -39,7 +39,7 @@
     gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xamarin
     name: "{{ ['mono', mono_repository, 'stable']|join('-') }}"
 
-- name: Ensure the required mono packages are installed
+- name: Ensure the required mono packages are installed (RedHat)
   tags: mono
   become: true
   yum:
